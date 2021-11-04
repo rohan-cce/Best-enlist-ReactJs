@@ -12,7 +12,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
 
 </head>
 
@@ -31,6 +30,36 @@
 	<button id="cat_btn">Get Cat</button>
 	<button id="dog_btn">Get Dog</button>
 </div>
+<script>
+    const cat_btn = document.getElementById('cat_btn');
+const dog_btn = document.getElementById('dog_btn');
+const cat_result = document.getElementById('cat_result');
+const dog_result = document.getElementById('dog_result');
+
+cat_btn.addEventListener('click', getRandomCat);
+dog_btn.addEventListener('click', getRandomDog);
+
+function getRandomCat() {
+	fetch('https://aws.random.cat/meow')
+		.then(res => res.json())
+		.then(data => {
+			cat_result.innerHTML = `<img src=${data.file} alt="cat" />`
+		});
+}
+
+function getRandomDog() {
+	fetch('https://random.dog/woof.json')
+		.then(res => res.json())
+		.then(data => {
+			if(data.url.includes('.mp4')) {
+				getRandomDog();
+			}
+			else {
+				dog_result.innerHTML = `<img src=${data.url} alt="dog" />`;
+			}
+		});
+}
+</script>
 </body>
 
 
